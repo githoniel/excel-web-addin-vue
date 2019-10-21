@@ -1,28 +1,64 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div class="content">
+      <div class="content-header">
+        <div class="padding">
+          <h1>Welcome</h1>
+        </div>
+      </div>
+      <div id="content-main">
+        <div class="padding">
+          <p>
+            Choose the button below to set the color of the selected range to
+            green.
+          </p>
+          <br />
+          <h3>Try it out</h3>
+          <button @click="onSetColor">Set color</button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
 export default {
-  name: 'app',
-  components: {
-    HelloWorld
+  name: 'App',
+  methods: {
+    onSetColor() {
+      window.Excel.run(async (context) => {
+        const range = context.workbook.getSelectedRange()
+        range.format.fill.color = 'green'
+        await context.sync()
+      })
+    }
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+  .content-header {
+    background: #2a8dd4;
+    color: #fff;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    overflow: hidden;
+  }
+
+  .content-main {
+    background: #fff;
+    position: fixed;
+    top: 80px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: auto;
+  }
+
+  .padding {
+    padding: 15px;
+  }
 </style>
